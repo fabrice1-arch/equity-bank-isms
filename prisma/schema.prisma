@@ -1,0 +1,362 @@
+// Prisma Schema - Equity Bank Rwanda PLC ISMS
+// Generated for AUCA Internship Project 2026
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─────────────────────────────────────────────
+// AUTHENTICATION
+// ─────────────────────────────────────────────
+
+enum UserRole {
+  ADMIN
+  SECURITY_OFFICER
+  AUDITOR
+  ANALYST
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+}
+
+model User {
+  id           String     @id @default(cuid())
+  name         String
+  email        String     @unique
+  password     String
+  role         UserRole   @default(ANALYST)
+  status       UserStatus @default(ACTIVE)
+  department   String
+  jobTitle     String?
+  phone        String?
+  avatar       String?
+  lastLogin    DateTime?
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  // Relations
+  assignedRisks     Risk[]          @relation("RiskOwner")
+  assignedIncidents Incident[]      @relation("IncidentAssignee")
+  reportedIncidents Incident[]      @relation("IncidentReporter")
+  auditLogs         AuditLog[]
+  policyAcks        PolicyAck[]
+  trainingResults   TrainingResult[]
+  accessReviews     AccessReview[]
+
+  @@map("users")
+}
+
+// ─────────────────────────────────────────────
+// RISK ASSESSMENT MODULE
+// ─────────────────────────────────────────────
+
+enum RiskLevel {
+  LOW
+  MEDIUM
+  HIGH
+  CRITICAL
+}
+
+enum RiskTreatment {
+  MITIGATE
+  AVOID
+  TRANSFER
+  ACCEPT
+}
+
+enum RiskStatus {
+  OPEN
+  IN_TREATMENT
+  RESOLVED
+  ACCEPTED
+}
+
+model Risk {
+  id           String        @id @default(cuid())
+  title        String
+  description  String
+  asset        String
+  threat       String
+  vulnerability String
+  likelihood   Int           // 1-5
+  impact       Int           // 1-5
+  riskScore    Int           // likelihood * impact
+  level        RiskLevel
+  treatment    RiskTreatment
+  status       RiskStatus    @default(OPEN)
+  category     String
+  ownerId      String
+  owner        User          @relation("RiskOwner", fields: [ownerId], references: [id])
+  reviewDate   DateTime
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@map("risks")
+}
+
+// ─────────────────────────────────────────────
+// INCIDENT RESPONSE MODULE
+// ─────────────────────────────────────────────
+
+enum IncidentSeverity {
+  P1_CRITICAL
+  P2_HIGH
+  P3_MEDIUM
+  P4_LOW
+}
+
+enum IncidentStatus {
+  OPEN
+  IN_PROGRESS
+  CONTAINED
+  ERADICATED
+  RESOLVED
+  CLOSED
+}
+
+model Incident {
+  id              String           @id @default(cuid())
+  title           String
+  description     String
+  severity        IncidentSeverity
+  status          IncidentStatus   @default(OPEN)
+  category        String
+  affectedSystems String[]
+  reporterId      String
+  reporter        User             @relation("IncidentReporter", fields: [reporterId], references: [id])
+  assigneeId      String?
+  assignee        User?            @relation("IncidentAssignee", fields: [assigneeId], references: [id])
+  detectedAt      DateTime
+  reportedAt      DateTime         @default(now())
+  containedAt     DateTime?
+  resolvedAt      DateTime?
+  closedAt        DateTime?
+  rootCause       String?
+  lessonsLearned  String?
+  regulatoryNotificationRequired Boolean @default(false)
+  regulatoryNotifiedAt DateTime?
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  updates         IncidentUpdate[]
+
+  @@map("incidents")
+}
+
+model IncidentUpdate {
+  id         String   @id @default(cuid())
+  incidentId String
+  incident   Incident @relation(fields: [incidentId], references: [id], onDelete: Cascade)
+  content    String
+  author     String
+  createdAt  DateTime @default(now())
+
+  @@map("incident_updates")
+}
+
+// ─────────────────────────────────────────────
+// ACCESS CONTROL MODULE
+// ─────────────────────────────────────────────
+
+enum AccessLevel {
+  READ
+  WRITE
+  ADMIN
+  PRIVILEGED
+}
+
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  REVOKED
+  OVERDUE
+}
+
+model AccessReview {
+  id           String       @id @default(cuid())
+  userId       String
+  user         User         @relation(fields: [userId], references: [id])
+  system       String
+  accessLevel  AccessLevel
+  status       ReviewStatus @default(PENDING)
+  lastReviewed DateTime?
+  nextReview   DateTime
+  reviewedBy   String?
+  notes        String?
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  @@map("access_reviews")
+}
+
+// ─────────────────────────────────────────────
+// ENCRYPTION & POLICIES MODULE
+// ─────────────────────────────────────────────
+
+enum PolicyStatus {
+  DRAFT
+  ACTIVE
+  UNDER_REVIEW
+  ARCHIVED
+}
+
+enum PolicyCategory {
+  ACCESS_CONTROL
+  CRYPTOGRAPHIC
+  DATA_CLASSIFICATION
+  INCIDENT_RESPONSE
+  ACCEPTABLE_USE
+  THIRD_PARTY
+  REMOTE_WORK
+  BUSINESS_CONTINUITY
+}
+
+model Policy {
+  id           String         @id @default(cuid())
+  title        String
+  category     PolicyCategory
+  content      String         @db.Text
+  version      String
+  status       PolicyStatus   @default(DRAFT)
+  owner        String
+  reviewDate   DateTime
+  approvedBy   String?
+  approvedAt   DateTime?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  acknowledgments PolicyAck[]
+
+  @@map("policies")
+}
+
+model PolicyAck {
+  id         String   @id @default(cuid())
+  policyId   String
+  policy     Policy   @relation(fields: [policyId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  acknowledgedAt DateTime @default(now())
+
+  @@unique([policyId, userId])
+  @@map("policy_acknowledgments")
+}
+
+enum EncryptionStatus {
+  COMPLIANT
+  NEEDS_ROTATION
+  NON_COMPLIANT
+  PENDING
+}
+
+model EncryptionAsset {
+  id           String           @id @default(cuid())
+  system       String
+  description  String
+  algorithm    String
+  keyLength    Int
+  dataState    String           // AT_REST, IN_TRANSIT, IN_USE
+  status       EncryptionStatus @default(COMPLIANT)
+  lastRotated  DateTime?
+  nextRotation DateTime?
+  managedBy    String
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+
+  @@map("encryption_assets")
+}
+
+// ─────────────────────────────────────────────
+// AUDIT LOGS MODULE
+// ─────────────────────────────────────────────
+
+enum LogSeverity {
+  INFO
+  WARNING
+  ERROR
+  CRITICAL
+}
+
+model AuditLog {
+  id         String      @id @default(cuid())
+  userId     String?
+  user       User?       @relation(fields: [userId], references: [id])
+  action     String
+  resource   String
+  resourceId String?
+  details    String?
+  ipAddress  String?
+  userAgent  String?
+  severity   LogSeverity @default(INFO)
+  success    Boolean     @default(true)
+  createdAt  DateTime    @default(now())
+
+  @@map("audit_logs")
+}
+
+// ─────────────────────────────────────────────
+// SECURITY AWARENESS TRAINING MODULE
+// ─────────────────────────────────────────────
+
+enum TrainingStatus {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
+  FAILED
+  OVERDUE
+}
+
+model TrainingCourse {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  targetRole  String   // ALL, IT_STAFF, MANAGEMENT, FINANCE, CUSTOMER_SERVICE
+  duration    Int      // in minutes
+  passingScore Int     @default(80)
+  dueDate     DateTime
+  mandatory   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  results TrainingResult[]
+
+  @@map("training_courses")
+}
+
+model TrainingResult {
+  id         String         @id @default(cuid())
+  courseId   String
+  course     TrainingCourse @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User           @relation(fields: [userId], references: [id])
+  status     TrainingStatus @default(NOT_STARTED)
+  score      Int?
+  startedAt  DateTime?
+  completedAt DateTime?
+  attempts   Int            @default(0)
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+
+  @@unique([courseId, userId])
+  @@map("training_results")
+}
+
+model PhishingSimulation {
+  id            String   @id @default(cuid())
+  campaignName  String
+  sentCount     Int
+  clickedCount  Int
+  reportedCount Int
+  department    String
+  conductedAt   DateTime
+  createdAt     DateTime @default(now())
+
+  @@map("phishing_simulations")
+}
