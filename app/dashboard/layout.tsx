@@ -2,6 +2,7 @@
 
 import { SessionProvider } from 'next-auth/react'
 import Sidebar from '@/components/layout/Sidebar'
+import DemoBanner from '@/components/DemoBanner'
 
 export default function DashboardLayout({
   children,
@@ -12,7 +13,10 @@ export default function DashboardLayout({
     <SessionProvider>
       <div className="app-layout">
         <Sidebar />
-        <div className="main-content">{children}</div>
+        <div className="main-content">
+          <DemoBanner />
+          {children}
+        </div>
       </div>
     </SessionProvider>
   )
