@@ -1,73 +1,90 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 
 /* ═══════════════════════════════════════════════
-   EQUITY BANK ISMS — DESIGN SYSTEM
-   Dark Mode Premium Security Dashboard
+   EQUITY BANK RWANDA PLC — ISMS DESIGN SYSTEM
+   Official Brand Identity · ISO 27001:2022
+   Primary Red: #E31837 | Dark Security Theme
 ═══════════════════════════════════════════════ */
 
 :root {
-  /* Background Layers */
-  --bg-primary: #070b14;
-  --bg-secondary: #0d1117;
-  --bg-card: #111827;
-  --bg-card-hover: #1a2332;
-  --bg-surface: #1e2a3b;
-  --bg-input: #0d1117;
+  /* ── Equity Bank Rwanda Official Brand Colors ── */
+  --equity-red:         #E31837;
+  --equity-red-dark:    #B8102A;
+  --equity-red-deeper:  #8C0D20;
+  --equity-red-dim:     rgba(227, 24, 55, 0.15);
+  --equity-red-glow:    rgba(227, 24, 55, 0.30);
 
-  /* Brand Colors */
-  --accent-cyan: #06b6d4;
-  --accent-cyan-dim: rgba(6, 182, 212, 0.15);
-  --accent-cyan-glow: rgba(6, 182, 212, 0.3);
-  --accent-blue: #3b82f6;
-  --accent-blue-dim: rgba(59, 130, 246, 0.15);
-  --accent-purple: #8b5cf6;
-  --accent-purple-dim: rgba(139, 92, 246, 0.15);
+  /* ── Dark Security Background Layers ── */
+  --bg-primary:         #0a0a0f;
+  --bg-secondary:       #0f0f1a;
+  --bg-card:            #141420;
+  --bg-card-hover:      #1a1a2e;
+  --bg-surface:         #1e1e30;
+  --bg-input:           #0f0f1a;
 
-  /* Status Colors */
-  --success: #10b981;
-  --success-dim: rgba(16, 185, 129, 0.15);
-  --warning: #f59e0b;
-  --warning-dim: rgba(245, 158, 11, 0.15);
-  --danger: #ef4444;
-  --danger-dim: rgba(239, 68, 68, 0.15);
-  --info: #06b6d4;
-  --info-dim: rgba(6, 182, 212, 0.15);
+  /* ── Brand Accent (Red-driven palette) ── */
+  --accent-red:         #E31837;
+  --accent-red-dim:     rgba(227, 24, 55, 0.15);
+  --accent-red-glow:    rgba(227, 24, 55, 0.30);
+  --accent-gold:        #F5A623;
+  --accent-gold-dim:    rgba(245, 166, 35, 0.15);
+  --accent-navy:        #1a237e;
+  --accent-navy-dim:    rgba(26, 35, 126, 0.20);
 
-  /* Risk Level Colors */
-  --risk-critical: #ef4444;
-  --risk-high: #f97316;
-  --risk-medium: #f59e0b;
-  --risk-low: #10b981;
+  /* ── Keep operational status colors ── */
+  --accent-cyan:        #E31837;
+  --accent-cyan-dim:    rgba(227, 24, 55, 0.12);
+  --accent-cyan-glow:   rgba(227, 24, 55, 0.25);
+  --accent-blue:        #B8102A;
+  --accent-blue-dim:    rgba(184, 16, 42, 0.15);
+  --accent-purple:      #9c2542;
+  --accent-purple-dim:  rgba(156, 37, 66, 0.15);
 
-  /* Text */
-  --text-primary: #f1f5f9;
-  --text-secondary: #94a3b8;
-  --text-muted: #475569;
-  --text-accent: #06b6d4;
+  /* ── Status Colors ── */
+  --success:            #22c55e;
+  --success-dim:        rgba(34, 197, 94, 0.15);
+  --warning:            #f59e0b;
+  --warning-dim:        rgba(245, 158, 11, 0.15);
+  --danger:             #ef4444;
+  --danger-dim:         rgba(239, 68, 68, 0.15);
+  --info:               #E31837;
+  --info-dim:           rgba(227, 24, 55, 0.12);
 
-  /* Borders */
-  --border: rgba(255, 255, 255, 0.07);
-  --border-accent: rgba(6, 182, 212, 0.3);
-  --border-hover: rgba(255, 255, 255, 0.15);
+  /* ── Risk Level Colors ── */
+  --risk-critical:      #ef4444;
+  --risk-high:          #f97316;
+  --risk-medium:        #f59e0b;
+  --risk-low:           #22c55e;
 
-  /* Sidebar */
-  --sidebar-width: 260px;
-  --sidebar-collapsed: 72px;
+  /* ── Text ── */
+  --text-primary:       #f8f8f8;
+  --text-secondary:     #a0a0b8;
+  --text-muted:         #52526a;
+  --text-accent:        #E31837;
 
-  /* Spacing */
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 14px;
-  --radius-xl: 20px;
+  /* ── Borders ── */
+  --border:             rgba(227, 24, 55, 0.10);
+  --border-accent:      rgba(227, 24, 55, 0.40);
+  --border-hover:       rgba(227, 24, 55, 0.25);
 
-  /* Shadows */
-  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4);
-  --shadow-glow: 0 0 20px rgba(6, 182, 212, 0.2);
-  --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+  /* ── Layout ── */
+  --sidebar-width:      265px;
+  --sidebar-collapsed:  72px;
 
-  /* Transitions */
-  --transition: all 0.2s ease;
-  --transition-slow: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  /* ── Spacing & Radius ── */
+  --radius-sm:          6px;
+  --radius-md:          10px;
+  --radius-lg:          14px;
+  --radius-xl:          20px;
+
+  /* ── Shadows ── */
+  --shadow-card:        0 4px 24px rgba(0, 0, 0, 0.5);
+  --shadow-glow:        0 0 20px rgba(227, 24, 55, 0.20);
+  --shadow-lg:          0 8px 40px rgba(0, 0, 0, 0.6);
+
+  /* ── Transitions ── */
+  --transition:         all 0.2s ease;
+  --transition-slow:    all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* ─── Reset ─── */
@@ -76,7 +93,7 @@
 html { scroll-behavior: smooth; }
 
 body {
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Poppins', system-ui, -apple-system, sans-serif;
   background: var(--bg-primary);
   color: var(--text-primary);
   line-height: 1.6;
@@ -156,13 +173,13 @@ code, pre { font-family: 'JetBrains Mono', monospace; }
 }
 
 .sidebar-logo {
-  width: 38px; height: 38px;
-  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+  width: 40px; height: 40px;
+  background: linear-gradient(135deg, var(--equity-red), var(--equity-red-dark));
   border-radius: var(--radius-md);
   display: flex; align-items: center; justify-content: center;
   font-size: 18px;
   flex-shrink: 0;
-  box-shadow: 0 0 16px var(--accent-cyan-glow);
+  box-shadow: 0 0 20px var(--equity-red-glow);
 }
 
 .sidebar-brand-text { overflow: hidden; }
@@ -392,10 +409,10 @@ code, pre { font-family: 'JetBrains Mono', monospace; }
   white-space: nowrap; font-family: inherit;
 }
 .btn-primary {
-  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
-  color: white; box-shadow: 0 4px 14px rgba(6, 182, 212, 0.3);
+  background: linear-gradient(135deg, var(--equity-red), var(--equity-red-dark));
+  color: white; box-shadow: 0 4px 14px rgba(227, 24, 55, 0.35);
 }
-.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(6, 182, 212, 0.4); }
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(227, 24, 55, 0.50); }
 .btn-secondary {
   background: var(--bg-surface); color: var(--text-primary);
   border: 1px solid var(--border);
@@ -589,8 +606,8 @@ code, pre { font-family: 'JetBrains Mono', monospace; }
 .login-bg-grid {
   position: absolute; inset: 0;
   background-image:
-    linear-gradient(rgba(6, 182, 212, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(6, 182, 212, 0.04) 1px, transparent 1px);
+    linear-gradient(rgba(227, 24, 55, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(227, 24, 55, 0.04) 1px, transparent 1px);
   background-size: 48px 48px;
   pointer-events: none;
 }
@@ -598,7 +615,7 @@ code, pre { font-family: 'JetBrains Mono', monospace; }
 .login-bg-glow {
   position: absolute;
   width: 600px; height: 600px;
-  background: radial-gradient(circle, rgba(6,182,212,0.08) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(227,24,55,0.10) 0%, transparent 70%);
   top: -200px; right: -200px;
   pointer-events: none;
 }
@@ -617,12 +634,12 @@ code, pre { font-family: 'JetBrains Mono', monospace; }
   display: flex; flex-direction: column; align-items: center; margin-bottom: 32px;
 }
 .login-logo {
-  width: 64px; height: 64px;
-  background: linear-gradient(135deg, var(--accent-cyan), var(--accent-blue));
+  width: 68px; height: 68px;
+  background: linear-gradient(135deg, var(--equity-red), var(--equity-red-dark));
   border-radius: var(--radius-lg);
   display: flex; align-items: center; justify-content: center;
   font-size: 28px;
-  box-shadow: 0 0 32px var(--accent-cyan-glow);
+  box-shadow: 0 0 40px var(--equity-red-glow);
   margin-bottom: 16px;
 }
 .login-bank-name {

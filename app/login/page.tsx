@@ -41,10 +41,20 @@ export default function LoginPage() {
 
       <div className="login-card">
         <div className="login-logo-wrapper">
-          <div className="login-logo">🏛️</div>
-          <div className="login-bank-name">EQUITY BANK RWANDA PLC</div>
-          <h1 className="login-title">Security Management Portal</h1>
-          <p className="login-subtitle">ISO 27001:2022 Compliant System</p>
+          {/* Equity Bank Rwanda Official Logo */}
+          <div className="login-logo">
+            <svg width="36" height="36" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 3L21 12V21H15V15H9V21H3V12L12 3Z" fill="white" fillOpacity="0.95"/>
+            </svg>
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            <div className="login-bank-name">
+              <span style={{ color: '#E31837', fontWeight: 800, fontSize: '15px' }}>EQUITY</span>
+              <span style={{ color: '#f8f8f8', fontWeight: 600 }}> BANK RWANDA PLC</span>
+            </div>
+            <h1 className="login-title">Security Management Portal</h1>
+            <p className="login-subtitle">ISO 27001:2022 · ISMS · AUCA Internship 2026</p>
+          </div>
         </div>
 
         <form onSubmit={handleSubmit}>

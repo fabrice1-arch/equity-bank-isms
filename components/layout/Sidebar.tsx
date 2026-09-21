@@ -50,10 +50,21 @@ export default function Sidebar() {
     <aside className="sidebar">
       <div className="sidebar-header">
         <div className="sidebar-brand">
-          <div className="sidebar-logo">🏛️</div>
+          {/* Equity Bank Rwanda Official Logo Mark */}
+          <div className="sidebar-logo">
+            {/* House/Home SVG — Equity Bank's signature icon */}
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 12L12 3L21 12V21H15V15H9V21H3V12Z" stroke="white" strokeWidth="1.5" strokeLinejoin="round" fill="rgba(255,255,255,0.15)"/>
+              <path d="M12 3L21 12V21H15V15H9V21H3V12L12 3Z" fill="white" fillOpacity="0.9"/>
+            </svg>
+          </div>
           <div className="sidebar-brand-text">
-            <span className="sidebar-brand-name">Equity Bank</span>
-            <span className="sidebar-brand-sub">ISMS Portal</span>
+            {/* "Equity" wordmark in brand red */}
+            <span className="sidebar-brand-name">
+              <span style={{ color: 'var(--equity-red)', fontWeight: 800, fontSize: '16px', letterSpacing: '-0.02em' }}>Equity</span>
+              <span style={{ color: 'var(--text-primary)', fontWeight: 600, fontSize: '13px' }}> Bank Rwanda</span>
+            </span>
+            <span className="sidebar-brand-sub">ISMS · ISO 27001:2022</span>
           </div>
         </div>
       </div>
